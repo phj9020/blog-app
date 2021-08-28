@@ -1,3 +1,3 @@
 # Blog App
 
-build blog app using react.js, node.js, mongoDB
+build blog app using react.js, typescript, node.js, mongoDB
