@@ -1,9 +1,13 @@
+import React from 'react';
+import TopBar from './components/TopBar';
 import './reset.css';
+import Home from './routes/Home';
 
 function App() {
   return (
-    <div className="App">
-        
+    <div>
+        <TopBar />
+        <Home />
     </div>
   );
 }
