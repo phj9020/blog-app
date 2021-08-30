@@ -21,12 +21,12 @@ const HeaderTitle = styled.div`
 
     .header_small{
         position:absolute;
-        top: 14%;
+        top: 13%;
         font-size: 20px;
     }
     .header_large{
         position:absolute;
-        top: 16%;
+        top: 15%;
         font-size: 100px;
     }
 `

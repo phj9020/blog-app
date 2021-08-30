@@ -1,4 +1,4 @@
-// import { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +15,7 @@ const TopBarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
+    z-index: 999;
 `
 
 const Left = styled.div`
@@ -45,6 +46,11 @@ const Ul = styled.ul`
         font-size: 18px;
         font-weight: 300;
         cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
     }
 
     li:not(:last-child) {
@@ -73,6 +79,15 @@ const Img = styled.img`
 `
 
 const TopBar = () => {
+    
+    const Nav:FunctionComponent<{value: string, path?:string }> = ({value, path})=> {
+        return (
+            <li>
+                <a href={path}>{value}</a>
+            </li>
+        )
+    };
+
     return (
         <TopBarContainer>
             <Left>
@@ -83,11 +98,11 @@ const TopBar = () => {
             </Left>
             <Center>
                 <Ul>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Contact</li>
-                    <li>Write</li>
-                    <li>Logout</li>
+                    <Nav value="home" path="/" />
+                    <Nav value="about" path="/about" />
+                    <Nav value="contact" path="/contact"/>
+                    <Nav value="write" path="/write" />
+                    <Nav value="logout" />
                 </Ul>
             </Center>
             <Right>

@@ -1,11 +1,21 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
+import Posts from '../components/Posts';
+import Sidebar from '../components/Sidebar';
+
+const HomeContainer = styled.div`
+    display: flex;
+`
 
 function Home() {
     return (
-        <div>
+        <>
             <Header />
-        </div>
+            <HomeContainer>
+                <Posts />
+                <Sidebar />
+            </HomeContainer>
+        </>
     )
 }
 
