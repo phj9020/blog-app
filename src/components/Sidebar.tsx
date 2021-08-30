@@ -8,6 +8,7 @@ const SidebarContainer = styled.aside`
     margin: 20px;
     padding-bottom: 30px;
     background-color: #fdfdfd;
+    max-height: 673px;
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
@@ -38,19 +39,18 @@ const SidebarItem = styled.div`
         padding: 30px 0px;
         text-align: center;
     }
-
+    
     ul {
         width: 80%;
         padding: 5px 0px;
-
+        
         li {
             display: inline-block;
             width: 50%;
             text-align: center;
             cursor: pointer;
-        }
-        li:not(:last-child) {
-            margin-bottom:20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin:10px 0px;
         }
     }
 `
@@ -74,16 +74,17 @@ function Sidebar() {
             <SidebarItem>
                 <span className="sidebar_title">About Me</span>
                 <Img src="https://cdn.pixabay.com/photo/2018/04/07/08/28/notepad-3297994_960_720.jpg" alt="profile" />
-                <p>박한진의 블로그에 오신 것을 환영합니다. 개발 블로그</p>
+                <p>박한진의 개발 블로그에 오신 것을 환영합니다.</p>
             </SidebarItem>
             <SidebarItem>
                 <span className="sidebar_title">Categories</span>
                 <ul>
-                    <li>React.js</li>
-                    <li>Next.js</li>
-                    <li>Node.js</li>
-                    <li>Apollo</li>
-                    <li>Algorithms</li>
+                    <li>리액트</li>
+                    <li>넥스트</li>
+                    <li>노드</li>
+                    <li>아폴로</li>
+                    <li>알고리즘</li>
+                    <li>데이터베이스</li>
                 </ul>
             </SidebarItem>
             <SidebarItem>
