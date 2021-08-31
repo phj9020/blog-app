@@ -12,6 +12,9 @@ const SidebarContainer = styled.aside`
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
+    position: sticky;
+    left: 0;
+    top:5%;
     
 `
 

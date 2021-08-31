@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookSquare, faTwitterSquare, faPinterestSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
 
-const TopBarContainer = styled.div`
+const TopBarContainer = styled.header`
     width: 100%;
     height: 50px;
     background-color: white;

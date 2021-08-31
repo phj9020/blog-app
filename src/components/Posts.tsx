@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Post from './Post';
 
-const PostsContainer = styled.div`
+const PostsContainer = styled.main`
     flex: 9;
     margin-top: 20px;
     padding: 10px;
@@ -27,7 +27,6 @@ function Posts() {
             <Post />
             <Post />
             <Post />
-            
         </PostsContainer>
     )
 }
