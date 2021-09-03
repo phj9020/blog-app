@@ -40,6 +40,7 @@ const SidebarItem = styled.div`
         width: 80%;
         font-family: 'Noto Sans KR', sans-serif;
         padding: 30px 0px;
+        line-height:1.5;
         text-align: center;
     }
     
