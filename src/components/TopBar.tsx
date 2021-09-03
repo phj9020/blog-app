@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookSquare, faTwitterSquare, faPinterestSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
+import {Link} from 'react-router-dom';
 
 const TopBarContainer = styled.header`
     width: 100%;
@@ -79,11 +80,19 @@ const Img = styled.img`
 `
 
 const TopBar = () => {
-    
-    const Nav:FunctionComponent<{value: string, path?:string }> = ({value, path})=> {
+    const isLoggedIn = true;
+
+    const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
+        event.preventDefault();
+        console.log("logout")
+    }
+
+    const Nav:FunctionComponent<{value: string, path:string}> = ({value, path})=> {
         return (
             <li>
-                <a href={path}>{value}</a>
+                <Link to={path}>
+                    {value}
+                </Link>
             </li>
         )
     };
@@ -91,22 +100,35 @@ const TopBar = () => {
     return (
         <TopBarContainer>
             <Left>
-                <FontAwesomeIcon className="header_icon" icon={faFacebookSquare}  />
+                <a href="https://www.facebook.com/han.j.park.9/" target="_blank" rel="noreferrer">
+                    <FontAwesomeIcon className="header_icon" icon={faFacebookSquare}  />
+                </a>
                 <FontAwesomeIcon className="header_icon" icon={faTwitterSquare}  />
                 <FontAwesomeIcon className="header_icon" icon={faPinterestSquare}  />
-                <FontAwesomeIcon className="header_icon" icon={faInstagramSquare}  />
+                <a href="https://www.instagram.com/hjp9020/" target="_blank" rel="noreferrer">
+                    <FontAwesomeIcon className="header_icon" icon={faInstagramSquare}  />
+                </a>
             </Left>
             <Center>
                 <Ul>
                     <Nav value="home" path="/" />
-                    <Nav value="about" path="/about" />
-                    <Nav value="contact" path="/contact"/>
+                    <Nav value="about" path="/" />
+                    <Nav value="contact" path="/"/>
                     <Nav value="write" path="/write" />
-                    <Nav value="logout" />
+                    {isLoggedIn ? <li onClick={handleLogOut} >logout</li> : null}
                 </Ul>
             </Center>
             <Right>
-                <Img src="/img/profile.jpg" alt="profile" />
+                {isLoggedIn ? (
+                    <Link to="/setting">
+                        <Img src="/img/profile.jpg" alt="profile" />
+                    </Link>
+                ) : (
+                    <Ul>
+                        <Nav value="login" path="/login" />
+                        <Nav value="register" path="/register" />
+                    </Ul>
+                )}
                 <FontAwesomeIcon className="search_icon" icon={faSearch} />
             </Right>
         </TopBarContainer>

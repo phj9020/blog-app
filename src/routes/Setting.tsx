@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import { sharedButton } from '../sharedStyle';
 
 const SettingContainer = styled.div`
     display: flex;
@@ -79,14 +80,9 @@ const SettingForm = styled.form`
 const SettingSubmit = styled.button`
     width: 20%;
     align-self: center;
-    cursor: pointer;
-    border:none;
-    border-radius: 7px;
     background-color: teal;
-    padding: 10px;
-    color: white;
-    margin-top:60px;
-    font-family: 'Noto Sans KR', sans-serif;
+    ${sharedButton}
+    margin-top: 60px;
 `
 
 
@@ -109,11 +105,11 @@ function Setting() {
                         <input type="file" id="profileUpload" style={{display: "none"}}/>
                     </div>
                     <label>Username</label>
-                    <input type="text" placeholder="유저이름을 입력하세요" />
+                    <input type="text" placeholder="유저이름을 입력하세요" autoComplete="off"/>
                     <label>Email</label>
-                    <input type="email" placeholder="이메일을 입력하세요" />
+                    <input type="email" placeholder="이메일을 입력하세요" autoComplete="off"/>
                     <label>Password</label>
-                    <input type="password" placeholder="비밀번호를 입력하세요" />
+                    <input type="password" placeholder="비밀번호를 입력하세요" autoComplete="off"/>
                     <SettingSubmit>저장하기</SettingSubmit>
                 </SettingForm>
             </SettingWrapper>
