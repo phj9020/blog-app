@@ -112,8 +112,7 @@ const TopBar = () => {
             <Center>
                 <Ul>
                     <Nav value="home" path="/" />
-                    <Nav value="about" path="/" />
-                    <Nav value="contact" path="/"/>
+                    <Nav value="about" path="/about" />
                     <Nav value="write" path="/write" />
                     {isLoggedIn ? <li onClick={handleLogOut} >logout</li> : null}
                 </Ul>

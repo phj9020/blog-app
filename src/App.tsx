@@ -13,6 +13,7 @@ import Register from './routes/Register';
 import Setting from './routes/Setting';
 import Single from './routes/Single';
 import Write from './routes/Write';
+import About from './routes/About';
 
 function App() {
   const isLoggedIn = true;
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path="/write" >
             {isLoggedIn ? <Write /> : <Home />}
+          </Route>
+          <Route path="/about" >
+            <About />
           </Route>
           <Route path="/post/:id" >
             <Single />

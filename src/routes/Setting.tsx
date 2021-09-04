@@ -41,9 +41,10 @@ const SettingForm = styled.form`
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        
         img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             border-radius: 20px;
             object-fit: cover;
             margin: 20px 0px;
@@ -105,11 +106,11 @@ function Setting() {
                         <input type="file" id="profileUpload" style={{display: "none"}}/>
                     </div>
                     <label>Username</label>
-                    <input type="text" placeholder="유저이름을 입력하세요" autoComplete="off"/>
+                    <input type="text" placeholder="수정할 유저이름을 입력하세요" autoComplete="off"/>
                     <label>Email</label>
-                    <input type="email" placeholder="이메일을 입력하세요" autoComplete="off"/>
+                    <input type="email" placeholder="수정할 이메일을 입력하세요" autoComplete="off"/>
                     <label>Password</label>
-                    <input type="password" placeholder="비밀번호를 입력하세요" autoComplete="off"/>
+                    <input type="password" placeholder="수정할 비밀번호를 입력하세요" autoComplete="off"/>
                     <SettingSubmit>저장하기</SettingSubmit>
                 </SettingForm>
             </SettingWrapper>
