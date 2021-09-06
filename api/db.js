@@ -1,7 +1,7 @@
 require('dotenv').config();
 import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://phj9020:phj1042518!@cluster0.vpzst.mongodb.net/blog-app?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
