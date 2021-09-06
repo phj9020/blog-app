@@ -16,7 +16,7 @@ import Write from './routes/Write';
 import About from './routes/About';
 
 function App() {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
       <Router>
         <TopBar />

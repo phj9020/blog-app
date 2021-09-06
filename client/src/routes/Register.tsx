@@ -76,9 +76,9 @@ function Register() {
             <RegisterTitle>Register</RegisterTitle>
             <RegisterForm>
                 <label>Username</label>
-                <input type="text" placeholder="유저명을 입력하세요" required autoComplete="on" />
+                <input type="text" placeholder="유저명을 입력하세요" required autoComplete="on" />
                 <label>Email</label>
-                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="on" />
+                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="on" />
                 <label>Password</label>
                 <input type="password" placeholder="비밀번호를 입력하세요" required autoComplete="on" />
                 <RegisterButton onClick={handleRegister}>회원가입</RegisterButton>
