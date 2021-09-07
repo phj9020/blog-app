@@ -1,19 +1,21 @@
-require('dotenv').config();
+import 'dotenv/config';
+import "regenerator-runtime";
 import express from 'express';
-import AuthRouter from './routes/auth';
 import './db';
+import AuthRouter from './routes/auth';
+import UserRouter from './routes/users';
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 
 // middleware 
-// body-parser is deprecated use express.json() instead
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }))
 
 // route
 app.use("/api/auth", AuthRouter); 
+app.use("/api/users", UserRouter);  
 
 
 app.listen(port, ()=>{
