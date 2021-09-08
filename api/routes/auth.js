@@ -19,7 +19,7 @@ const handleRegister = async (req, res) => {
         const user = await newUser.save();
         res.status(201).json(user);
     } catch(err){
-        res.status(500).json(err);
+        res.status(500).json({error:err});
     }
 };
 
@@ -32,20 +32,24 @@ const handleLogin = async (req, res) => {
         }); 
 
         if(!user) {
-            res.status(400).json("입력하신 이메일은 없는 계정입니다.")
+            res.status(400).json({
+                message: "입력하신 이메일은 없는 계정입니다."
+            })
         }
 
         const validate = await bcrypt.compare(password, user.password);
 
         if(!validate) {
-            res.status(400).json("비밀번호가 일치하지 않습니다")
+            res.status(400).json({
+                message: "비밀번호가 일치하지 않습니다"}
+            )
         }
 
         const {password:hashedPassword, ...otherInfo} = user._doc;
-        res.status(200).json(otherInfo);
+        res.status(200).json({...otherInfo, message: "성공적으로 로그인 했습니다"});
 
     } catch(err){
-        res.status(500).json(err);
+        res.status(500).json({error:err});
     }
 }
 

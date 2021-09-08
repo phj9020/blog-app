@@ -21,13 +21,17 @@ const postSchema = new mongoose.Schema(
         categories: {
             type: Array,
             required: true,
-        }
+        },
+        owner: {type: mongoose.Schema.Types.ObjectId, required:true, ref:"User"},
     },
     {
         timestamps: true
     }
 );
 
+
 const postModule = mongoose.model('Post', postSchema);
+
+
 
 export default postModule;
