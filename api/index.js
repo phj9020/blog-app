@@ -5,6 +5,7 @@ import './db';
 import AuthRouter from './routes/auth';
 import UserRouter from './routes/users';
 import PostRouter from './routes/posts';
+import CategoryRouter from './routes/categories';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/api/auth", AuthRouter); 
 app.use("/api/users", UserRouter);
 app.use("/api/post", PostRouter);
+app.use("/api/categories", CategoryRouter);
 
 
 app.listen(port, ()=>{

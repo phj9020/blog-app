@@ -80,19 +80,25 @@ const handleUpdatePost = async(req, res) => {
     }
 }
 
-// Delete Pos
+// Delete Post
 const handleDeletePost = async(req, res) => {
     const {id: postId} = req.params;
-    const {username}= req.body;
+    const {id: userId}= req.body;
+
     try {
         const post = await postModule.findById(postId);
-        if(post.username === username) {
+        const user = await userModule.findById(userId);
+
+        if(post.username === user.username) {
+            user.posts.pull(postId);
+            user.save();
             await post.delete();
             res.status(200).json({message: "글을 성공적으로 삭제했습니다"})
         } else {
             res.status(401).json({error: "본인 글만 삭제할 수 있습니다."})
         }
-    }catch (err) {
+
+    } catch (err) {
         res.status(500).json({error: err})
     }
 }
