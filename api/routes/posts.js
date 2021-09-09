@@ -80,7 +80,7 @@ const handleUpdatePost = async(req, res) => {
     }
 }
 
-// Delete Post 
+// Delete Pos
 const handleDeletePost = async(req, res) => {
     const {id: postId} = req.params;
     const {username}= req.body;
