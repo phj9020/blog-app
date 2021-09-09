@@ -80,7 +80,7 @@ const Img = styled.img`
 `
 
 const TopBar = () => {
-    const isLoggedIn = false;
+    const isLoggedIn = true;
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
         event.preventDefault();
