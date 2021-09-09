@@ -61,7 +61,7 @@ const handleCreatePost = async (req, res) => {
     }
 };
 
-// Update Post 
+// Update Post
 const handleUpdatePost = async(req, res) => {
     const {id: postId} = req.params;
     const {username}= req.body;
@@ -97,7 +97,7 @@ const handleDeletePost = async(req, res) => {
     }
 }
 
-
+// Routes
 PostRouter.get("/", handleGetAllPosts);
 PostRouter.get("/:id", handleGetSinglePost);
 PostRouter.post("/createPost", handleCreatePost);
