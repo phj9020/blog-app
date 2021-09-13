@@ -22,11 +22,10 @@ const handleGetAllPosts = async (req, res) => {
         } else {
             posts = await postModule.find();
         }
-        
-        res.status(200).json({data: posts})
+        res.status(200).json(posts)
         
     } catch (err) {
-        res.status(500).json({error:err})
+        res.status(500).json(err)
     }
 }
 
@@ -37,15 +36,16 @@ const handleGetSinglePost = async (req, res) => {
         const post = await postModule.findById(id);
         res.status(200).json(post)
     } catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json(err)
     }
 }
 
 // Create Post
 const handleCreatePost = async (req, res) => {
+    const newPost = new postModule(req.body);
     try {
-        const newPost = new postModule(req.body);
         const savedPost = await newPost.save();
+        console.log(savedPost)
         
         const user = await userModule.findById({
             _id: req.body.owner._id,
@@ -54,10 +54,10 @@ const handleCreatePost = async (req, res) => {
         user.posts.push(newPost._id);
         user.save();
 
-        res.status(200).json({data: savedPost})
+        res.status(200).json(savedPost)
 
     } catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json(err)
     }
 };
 
@@ -73,10 +73,10 @@ const handleUpdatePost = async(req, res) => {
             }, {new: true});
             res.status(200).json(updatedPost)
         } else {
-            res.status(401).json({error: "본인 글만 수정할 수 있습니다."})
+            res.status(401).json("본인 글만 수정할 수 있습니다.")
         }
     }catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json(err)
     }
 }
 
@@ -93,13 +93,13 @@ const handleDeletePost = async(req, res) => {
             user.posts.pull(postId);
             user.save();
             await post.delete();
-            res.status(200).json({message: "글을 성공적으로 삭제했습니다"})
+            res.status(200).json("글을 성공적으로 삭제했습니다")
         } else {
-            res.status(401).json({error: "본인 글만 삭제할 수 있습니다."})
+            res.status(401).json("본인 글만 삭제할 수 있습니다.")
         }
 
     } catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json(err)
     }
 }
 

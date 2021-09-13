@@ -18,7 +18,7 @@ const handleGetCategory = async (req, res) => {
         const category = await categoryModule.find()
         res.status(200).json(category);
     } catch (err) {
-        res.status(500).json({error: err})
+        res.status(500).json(err)
     }
 }
 

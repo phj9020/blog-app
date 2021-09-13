@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Post from './Post';
 
@@ -15,18 +16,13 @@ const PostsContainer = styled.main`
     }
 `
 
-function Posts() {
+
+
+const Posts:FunctionComponent<{posts: []}> = ({posts}) => {
+
     return (
         <PostsContainer>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            {posts.map((post,index) => <Post key={index} post={post} />)}
         </PostsContainer>
     )
 }

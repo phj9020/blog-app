@@ -1,8 +1,18 @@
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const SinglePostContainer = styled.div`
     width: 80%;
     cursor: pointer;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        :focus {
+            color: inherit;
+        }
+    }
 `
 
 const PostImg = styled.img`
@@ -57,24 +67,40 @@ const PostParagraph = styled.p`
     -webkit-box-orient: vertical;
 `
 
-function Post() {
+interface Ipost {
+    _id: string,
+    title: string,
+    description: string,
+    owner: string,
+    photo: string,
+    username: string,
+    categories: Array<string>,
+    createdAt: string,
+    updatedAt: string,
+}
 
-    const text = "끝에 풀밭에 발휘하기 때에, 희망의 눈에 것이다. 힘차게 끓는 청춘의 가슴에 봄바람이다. 위하여 이 싸인 어디 생의 열락의 새 황금시대다. 이 붙잡아 예수는 끓는다. 유소년에게서 같은 가치를 피는 못할 아니더면, 동력은 황금시대를 봄바람이다. 실로 가치를실로 가치를실로 가치를실로 가치를 ";
+
+const Post:FunctionComponent<{post:Ipost}> = ({post}) => {
+    const {_id, title, description,createdAt, categories, photo} = post;
+    console.log(photo)
 
     return (
         <SinglePostContainer>
-            <PostImg src="https://picsum.photos/1200/600?random=4" alt="poster" />
-            <PostInfo>
-                <PostCategories>
-                    <span>리액트</span>
-                    <span>넥스트</span>
-                </PostCategories>
-                <PostTitle>
-                    포스트 타이틀
-                </PostTitle>
-                <PostDate>1 hour ago</PostDate>
-            </PostInfo>
-            <PostParagraph>{text}</PostParagraph>
+            {photo && (
+                <PostImg src={photo} alt={title} />
+            )}
+            <Link to={`/post/${_id}`}>
+                <PostInfo>
+                    <PostCategories>
+                        {categories.map((cat,index) => <span key={index}>{cat}</span>)}
+                    </PostCategories>
+                    <PostTitle>
+                        {title}
+                    </PostTitle>
+                    <PostDate>{new Date(createdAt).toDateString()}</PostDate>
+                </PostInfo>
+                <PostParagraph>{description}</PostParagraph>
+            </Link>
         </SinglePostContainer>
     )
 }
