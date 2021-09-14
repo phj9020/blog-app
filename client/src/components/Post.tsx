@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Ipost } from '../type';
 
 const SinglePostContainer = styled.div`
     width: 80%;
-    cursor: pointer;
 
     a {
         color: inherit;
@@ -66,18 +66,6 @@ const PostParagraph = styled.p`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 `
-
-interface Ipost {
-    _id: string,
-    title: string,
-    description: string,
-    owner: string,
-    photo: string,
-    username: string,
-    categories: Array<string>,
-    createdAt: string,
-    updatedAt: string,
-}
 
 
 const Post:FunctionComponent<{post:Ipost}> = ({post}) => {

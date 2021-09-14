@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from 'react-router';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Ipost } from '../type';
+
 
 const SinglePostContainer = styled.main`
     flex: 9;
@@ -86,7 +91,7 @@ const PostCategories = styled.div`
 const SinglePostDescription = styled.p`
     font-family: 'Noto Sans KR', sans-serif;
     font-size:18px;
-    line-height:27px;
+    line-height:1.5;
     color: #666;
 
     ::first-letter {
@@ -97,12 +102,27 @@ const SinglePostDescription = styled.p`
 `
 
 function SinglePost() {
+    const [singlePost, setSinglePost] = useState<Ipost>();
+    const location = useLocation();
+    const {pathname} = location;
+
+    useEffect(() => {
+        const getSinglePost = async()=> {
+            const res = await axios.get(`http://localhost:4000/api${pathname}`);
+            setSinglePost(res.data)
+        }
+        getSinglePost();
+    },[pathname]);
+    
+    
     return (
         <SinglePostContainer>
             <SinglePostWrapper>
-                <SinglePostImg src="https://picsum.photos/1200/600?random=4" alt="poster" />
+                {singlePost?.photo && (
+                    <SinglePostImg src={singlePost?.photo} alt="poster" />
+                )}
                 <SinglePostTitle>
-                    리액트로 프로젝트를 만들며 접한 오류 정리
+                    {singlePost?.title}
                     <SinglePostEdit>
                         <FontAwesomeIcon className="singlePostIcon" icon={faEdit}/>
                         <FontAwesomeIcon className="singlePostIcon" icon={faTrashAlt}/>
@@ -111,19 +131,15 @@ function SinglePost() {
                 <SinglePostInfo>
                     <div className="singlePostProfile">
                         <ProfileImg src="/img/profile.jpg" alt="profile" />
-                        <SinglePostAuthor>박한진</SinglePostAuthor>
-                        <SinglePostDate>1 hr ago</SinglePostDate>
+                        <SinglePostAuthor>{singlePost?.username}</SinglePostAuthor>
+                        <SinglePostDate>{singlePost?.createdAt.substring(0,10)}</SinglePostDate>
                     </div>
                     <PostCategories>
-                        <span>리액트</span>
-                        <span>넥스트</span>
+                        {singlePost?.categories.map((category,index) => <span key={index}>{category}</span>)}
                     </PostCategories>
                 </SinglePostInfo>
                 <SinglePostDescription>
-                    끝에 풀밭에 발휘하기 때에, 희망의 눈에 것이다. 힘차게 끓는 청춘의 가슴에 봄바람이다. 위하여 이 싸인 어디 생의 열락의 새 황금시대다. 이 붙잡아 예수는 끓는다. 유소년에게서 같은 가치를 피는 못할 아니더면, 동력은 황금시대를 봄바람이다. 실로 가치를실로 가치를실로 가치를실로 가치를
-                    끝에 풀밭에 발휘하기 때에, 희망의 눈에 것이다. 힘차게 끓는 청춘의 가슴에 봄바람이다. 위하여 이 싸인 어디 생의 열락의 새 황금시대다. 이 붙잡아 예수는 끓는다. 유소년에게서 같은 가치를 피는 못할 아니더면, 동력은 황금시대를 봄바람이다. 실로 가치를실로 가치를실로 가치를실로 가치를
-                    끝에 풀밭에 발휘하기 때에, 희망의 눈에 것이다. 힘차게 끓는 청춘의 가슴에 봄바람이다. 위하여 이 싸인 어디 생의 열락의 새 황금시대다. 이 붙잡아 예수는 끓는다. 유소년에게서 같은 가치를 피는 못할 아니더면, 동력은 황금시대를 봄바람이다. 실로 가치를실로 가치를실로 가치를실로 가치를
-                    끝에 풀밭에 발휘하기 때에, 희망의 눈에 것이다. 힘차게 끓는 청춘의 가슴에 봄바람이다. 위하여 이 싸인 어디 생의 열락의 새 황금시대다. 이 붙잡아 예수는 끓는다. 유소년에게서 같은 가치를 피는 못할 아니더면, 동력은 황금시대를 봄바람이다. 실로 가치를실로 가치를실로 가치를실로 가치를
+                    {singlePost?.description}
                 </SinglePostDescription>
             </SinglePostWrapper>
         </SinglePostContainer>

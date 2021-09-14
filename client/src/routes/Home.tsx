@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Posts from '../components/Posts';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios';
+import { Ipost } from '../type';
 
 
 const HomeContainer = styled.div`
@@ -11,7 +12,7 @@ const HomeContainer = styled.div`
 `
 
 function Home() {
-    const [posts, setPosts] = useState<[]>([]);
+    const [posts, setPosts] = useState<Ipost[]>([]);
 
     useEffect(()=> {
         const fetchPosts = async() => {
@@ -20,6 +21,7 @@ function Home() {
         }
         fetchPosts();
     },[]);
+    console.log(posts)
     return (
         <>
             <Header />

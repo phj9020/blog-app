@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { Ipost } from '../type';
 import Post from './Post';
 
 const PostsContainer = styled.main`
@@ -18,7 +19,7 @@ const PostsContainer = styled.main`
 
 
 
-const Posts:FunctionComponent<{posts: []}> = ({posts}) => {
+const Posts:FunctionComponent<{posts: Ipost[]}> = ({posts}) => {
 
     return (
         <PostsContainer>
