@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebookSquare, faTwitterSquare, faPinterestSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Icategory } from '../type';
+import { Link } from 'react-router-dom';
 
 
 const SidebarContainer = styled.aside`
@@ -55,6 +59,10 @@ const SidebarItem = styled.div`
             cursor: pointer;
             font-family: 'Noto Sans KR', sans-serif;
             margin:10px 0px;
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
         }
     }
 `
@@ -64,6 +72,12 @@ const Img = styled.img`
 `
 
 const IconContainer = styled.div`
+    a {
+        color: inherit;
+    }
+    a:not(:last-child) {
+        margin-right: 10px;
+    }
     .sidebar_icon {
         cursor: pointer;
     }
@@ -73,6 +87,17 @@ const IconContainer = styled.div`
 `
 
 function Sidebar() {
+    const [categories, setCategories] = useState<Icategory[]>([]);
+
+    useEffect(()=> {
+        const getCategories = async ()=> {
+            const res = await axios.get("http://localhost:4000/api/categories");
+            setCategories(res.data)
+        };
+        getCategories();
+    },[])
+
+
     return (
         <SidebarContainer>
             <SidebarItem>
@@ -83,21 +108,26 @@ function Sidebar() {
             <SidebarItem>
                 <span className="sidebar_title">Categories</span>
                 <ul>
-                    <li>리액트</li>
-                    <li>넥스트</li>
-                    <li>노드</li>
-                    <li>아폴로</li>
-                    <li>알고리즘</li>
-                    <li>데이터베이스</li>
+                    {categories.map(category => 
+                        <li key={category._id}>
+                            <Link to={`/?category=${category.name}`}>
+                                {category.name}
+                            </Link>
+                        </li>    
+                    )}
                 </ul>
             </SidebarItem>
             <SidebarItem>
                 <span className="sidebar_title">Follow me</span>
                 <IconContainer>
-                    <FontAwesomeIcon className="sidebar_icon" icon={faFacebookSquare}  />
+                    <a href="https://www.facebook.com/han.j.park.9/" target="_blank" rel="noreferrer">
+                        <FontAwesomeIcon className="sidebar_icon" icon={faFacebookSquare}  />
+                    </a>
                     <FontAwesomeIcon className="sidebar_icon" icon={faTwitterSquare}  />
                     <FontAwesomeIcon className="sidebar_icon" icon={faPinterestSquare}  />
-                    <FontAwesomeIcon className="sidebar_icon" icon={faInstagramSquare}  />
+                    <a href="https://www.instagram.com/hjp9020/" target="_blank" rel="noreferrer">
+                        <FontAwesomeIcon className="sidebar_icon" icon={faInstagramSquare}  />
+                    </a>
                 </IconContainer>
             </SidebarItem>
         </SidebarContainer>

@@ -5,6 +5,7 @@ import Posts from '../components/Posts';
 import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 import { Ipost } from '../type';
+import { useLocation } from 'react-router';
 
 
 const HomeContainer = styled.div`
@@ -13,14 +14,15 @@ const HomeContainer = styled.div`
 
 function Home() {
     const [posts, setPosts] = useState<Ipost[]>([]);
+    const {search} = useLocation();
 
     useEffect(()=> {
         const fetchPosts = async() => {
-            const res = await axios.get("http://localhost:4000/api/post")
+            const res = await axios.get("http://localhost:4000/api/post" + search)
             setPosts(res.data)
         }
         fetchPosts();
-    },[]);
+    },[search]);
     console.log(posts)
     return (
         <>

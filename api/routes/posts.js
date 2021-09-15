@@ -45,7 +45,6 @@ const handleCreatePost = async (req, res) => {
     const newPost = new postModule(req.body);
     try {
         const savedPost = await newPost.save();
-        console.log(savedPost)
         
         const user = await userModule.findById({
             _id: req.body.owner._id,

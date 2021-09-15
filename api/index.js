@@ -38,6 +38,10 @@ const upload = multer({storage: storage});
 app.post("/api/upload", upload.single("file"), (req, res) => {
     res.status(200).json("파일이 성공적으로 업로드 되었습니다.")
 })
+
+app.get("/", (req, res) => {
+    res.status(200).send("this is a HJP's Blog app api")
+});
 app.use("/api/auth", AuthRouter); 
 app.use("/api/users", UserRouter);
 app.use("/api/post", PostRouter);

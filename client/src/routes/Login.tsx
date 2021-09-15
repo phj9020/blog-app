@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import {sharedButton} from '../sharedStyle';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
+import { IRegisterStateType } from '../type';
 
 const LoginContainer = styled.div`
     height: calc(100vh - 50px);
@@ -66,20 +67,34 @@ const RegisterButton = styled.button`
 `
 
 function Login() {
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    let {state} = useLocation<IRegisterStateType>();
+    
+    // console.log(state)
 
-    const handleLogin = (event: React.MouseEvent<HTMLElement>) => {
-        // event.preventDefault();
-        console.log("login here")
-    }
+    const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        // To do: post login
+    };
+
+    const handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
+        if(event.target.type ==="email") {
+            setEmail(event.target.value);
+        } else if(event.target.type === "password") {
+            setPassword(event.target.value);
+        }
+    };
+    // console.log(email, password)
     return (
         <LoginContainer>
             <LoginTitle>Login</LoginTitle>
-            <LoginForm>
+            <LoginForm onSubmit={handleLogin}>
                 <label>Email</label>
-                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="off" />
+                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="off" onChange={handleOnChange} value={state ? state.email : email} />
                 <label>Password</label>
-                <input type="password" placeholder="비밀번호를 입력하세요" required autoComplete="off"/>
-                <LoginButton onClick={handleLogin}>로그인</LoginButton>
+                <input type="password" placeholder="비밀번호를 입력하세요" required autoComplete="off" onChange={handleOnChange} value={state ? state.password : password} />
+                <LoginButton>로그인</LoginButton>
             </LoginForm>
             <RegisterButton>
                 <Link to="/register">회원가입</Link>

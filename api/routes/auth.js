@@ -10,16 +10,24 @@ const handleRegister = async (req, res) => {
     const {username, email, password} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
-        const newUser = new userModule({
+        const alreadyExistUser = await userModule.findOne({
             username: username,
             email: email,
-            password: hashedPassword,
         });
-
-        const user = await newUser.save();
-        res.status(201).json(user);
+        if(alreadyExistUser) {
+            return res.status(409).json({error:"이메일 또는 유저이름이 이미 사용중입니다"})
+        } else {
+            const newUser = new userModule({
+                username: username,
+                email: email,
+                password: hashedPassword,
+            });
+    
+            const user = await newUser.save();
+            return res.status(201).json(user);
+        }
     } catch(err){
-        res.status(500).json(err);
+        res.status(500).json({error: "이메일 또는 유저이름이 이미 사용중입니다"});
     }
 };
 
@@ -30,7 +38,7 @@ const handleLogin = async (req, res) => {
         const user = await userModule.findOne({
             email: email,
         }); 
-        console.log(user)
+        
         if(!user) {
             res.status(400).json("입력하신 이메일은 없는 계정입니다.")
         }

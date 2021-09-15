@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Ipost } from '../type';
+import { Link } from 'react-router-dom';
 
 
 const SinglePostContainer = styled.main`
@@ -74,7 +75,11 @@ const SinglePostAuthor = styled.span`
     font-size: 20px;
     font-weight: 600;
     margin-right: 10px;
-    `
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+`
 const SinglePostDate = styled.span`
     font-size: 14px;
     opacity:0.7;
@@ -131,7 +136,7 @@ function SinglePost() {
                 <SinglePostInfo>
                     <div className="singlePostProfile">
                         <ProfileImg src="/img/profile.jpg" alt="profile" />
-                        <SinglePostAuthor>{singlePost?.username}</SinglePostAuthor>
+                        <SinglePostAuthor><Link to={`/?user=${singlePost?.username}`}>{singlePost?.username}</Link></SinglePostAuthor>
                         <SinglePostDate>{singlePost?.createdAt.substring(0,10)}</SinglePostDate>
                     </div>
                     <PostCategories>

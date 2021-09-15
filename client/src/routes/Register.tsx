@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {sharedButton} from '../sharedStyle';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const RegisterContainer = styled.div`
     height: calc(100vh - 50px);
@@ -43,6 +45,11 @@ const RegisterForm = styled.form`
             outline: none;
         }
     }
+    span {
+        font-size: 12px;
+        color: red;
+        margin-bottom: 10px;
+    }
 `
 
 const RegisterButton =styled.button`
@@ -66,22 +73,61 @@ const LoginButton = styled.button`
 
 
 function Register() {
-
-    const handleRegister = (event: React.MouseEvent<HTMLElement>) => {
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
+    let history = useHistory();
+    
+    const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("register here")
-    }
+        const postRegister = await axios({
+            url: "http://localhost:4000/api/auth/register",
+            method: "POST",
+            data: {
+                username,
+                email,
+                password
+            }
+        }).then(response => response)
+        .catch(error => setError(error.response.data.error))
+
+        if(postRegister?.status === 201) {
+            alert("계정을 성공적으로 생성했습니다");
+            history.push({
+                pathname: "/login",
+                state: {
+                    email,
+                    password
+                }
+            });
+        } 
+    };
+
+    const handleOnChange= (event: React.ChangeEvent<HTMLInputElement>)=> {
+        setError("");
+        if(event.target.type === "text") {
+            setUsername(event.target.value);
+        } else if (event.target.type === "email") {
+            setEmail(event.target.value);
+        } else if (event.target.type === "password") {
+            setPassword(event.target.value);
+        }
+    };
+
     return (
         <RegisterContainer>
             <RegisterTitle>Register</RegisterTitle>
-            <RegisterForm>
+            <RegisterForm onSubmit={handleRegister}>
                 <label>Username</label>
-                <input type="text" placeholder="유저명을 입력하세요" required autoComplete="on" />
+                {error && <span>{error}</span>}
+                <input type="text" placeholder="유저명을 입력하세요" required autoComplete="on" value={username} onChange={handleOnChange} />
                 <label>Email</label>
-                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="on" />
+                {error && <span>{error}</span>}
+                <input type="email" placeholder="이메일을 입력하세요" required autoComplete="on" value={email} onChange={handleOnChange} />
                 <label>Password</label>
-                <input type="password" placeholder="비밀번호를 입력하세요" required autoComplete="on" />
-                <RegisterButton onClick={handleRegister}>회원가입</RegisterButton>
+                <input type="password" placeholder="비밀번호를 입력하세요" required autoComplete="on" value={password} onChange={handleOnChange} />
+                <RegisterButton type="submit">회원가입</RegisterButton>
             </RegisterForm>
             <LoginButton>
                 <Link to="/login">로그인</Link>

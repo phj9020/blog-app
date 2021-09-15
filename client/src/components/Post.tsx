@@ -70,7 +70,7 @@ const PostParagraph = styled.p`
 
 const Post:FunctionComponent<{post:Ipost}> = ({post}) => {
     const {_id, title, description,createdAt, categories, photo} = post;
-    console.log(photo)
+
 
     return (
         <SinglePostContainer>

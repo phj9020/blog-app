@@ -52,9 +52,9 @@ function About() {
             <AboutContent>
                 <h2>Welcome to my Blog</h2>
                 <img src="/img/profile.jpg" alt="hjp_profile" />
-                <p>안녕하세요. 저의 블로그에 방문하신 것을 환영합니다. 개발을 공부하면서 노트 정리를 OneNote에 해오다가 
-                    블로그 앱을 하나 만들고 여기에 정리해보면 어떨까하고 만들게된 블로그 앱입니다.
-                    다음에 봐도 이해할 수 있는 글을 작성할 수 있도록 노력 중입니다. 
+                <p>
+                    안녕하세요. 박한진의 블로그에 방문하신 것을 환영합니다. 개발을 공부하며 노트에 기록하고 배운 내용을 정리하기 위해 만든 블로그 앱입니다.
+                    쉽고 이해할 수 있는 글을 작성할 수 있도록 노력 중입니다. 
                 </p>
             </AboutContent>
         </AboutContainer>

@@ -9,3 +9,13 @@ export interface Ipost {
     createdAt: string,
     updatedAt: string,
 }
+
+export interface Icategory  {
+    _id: string,
+    name: string,
+}
+
+export interface IRegisterStateType {
+    email: string,
+    password: string,
+}
