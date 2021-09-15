@@ -11,8 +11,11 @@ const handleRegister = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const alreadyExistUser = await userModule.findOne({
-            username: username,
-            email: email,
+            $or: [{
+                email: email
+            }, {
+                username: username
+            }]
         });
         if(alreadyExistUser) {
             return res.status(409).json({error:"이메일 또는 유저이름이 이미 사용중입니다"})
@@ -27,7 +30,7 @@ const handleRegister = async (req, res) => {
             return res.status(201).json(user);
         }
     } catch(err){
-        res.status(500).json({error: "이메일 또는 유저이름이 이미 사용중입니다"});
+        res.status(500).json(err);
     }
 };
 
