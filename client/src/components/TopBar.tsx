@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookSquare, faTwitterSquare, faPinterestSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
 import {Link} from 'react-router-dom';
-import { useContextState } from "../context/Context";
+import { useContextState, useDispatch } from "../context/Context";
 
 const TopBarContainer = styled.header`
     width: 100%;
@@ -76,19 +76,22 @@ const Right = styled.div`
 
 const Img = styled.img`
     width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 50%;
 `
 
 const TopBar = () => {
     const state = useContextState();
+    const dispatch = useDispatch();
     const user = state.user;
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
         event.preventDefault();
-        localStorage.removeItem("user");
-        window.location.reload();
-    }
+        dispatch({type:"Log_Out"})
+    };
+
+    // https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png
 
     const Nav:FunctionComponent<{value: string, path:string}> = ({value, path})=> {
         return (
@@ -123,7 +126,7 @@ const TopBar = () => {
             <Right>
                 {user ? (
                     <Link to="/setting">
-                        <Img src="/img/profile.jpg" alt="profile" />
+                        <Img src={user.profilePic ? user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profile" />
                     </Link>
                 ) : (
                     <Ul>

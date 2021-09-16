@@ -1,7 +1,6 @@
 import { Action, State } from "./Context"
 
 const Reducer = (state:State, action:Action) : State => {
-    
     switch(action.type) {
         case "Login_Start" :
             return {
@@ -21,11 +20,18 @@ const Reducer = (state:State, action:Action) : State => {
             return {
                 ...state,
                 user: null,
-                isFetching: true,
+                isFetching: false,
                 error: true,
             }
+        case "Log_Out":
+            return {
+                ...state,
+                user: null,
+                isFetching: false,
+                error: false,
+            }
         default :
-            return state
+            return state;
     }
 }
 

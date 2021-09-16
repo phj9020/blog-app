@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import { sharedButton } from '../sharedStyle';
+import { useContextState } from '../context/Context';
 
 const SettingContainer = styled.div`
     display: flex;
@@ -89,6 +90,9 @@ const SettingSubmit = styled.button`
 
 
 function Setting() {
+    const state = useContextState();
+    const user = state.user;
+    
     return (
         <SettingContainer>
             <SettingWrapper>
@@ -99,7 +103,7 @@ function Setting() {
                 <SettingForm>
                     <label>Profile Picture</label>
                     <div className="setting_ProfilePic">
-                        <img src="/img/profile.jpg" alt="profilepic" />
+                        <img src={user.profilePic ? user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profilepic" />
                         <label htmlFor="profileUpload" title="프로필 이미지 업로드">
                             <FontAwesomeIcon className="setting_ProfileIcon" icon={faUserCircle} />
                         </label>

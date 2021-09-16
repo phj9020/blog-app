@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface State {
-    user: any;
+    user: User | null;
     isFetching: boolean;
     error: boolean;
 }
@@ -25,10 +25,10 @@ const INITIAL_STATE = {
     error: false,
 };
 
-export type Action = 
-| {type: "Login_Start"} 
+export type Action = {type: "Login_Start"} 
 | {type: "Login_Success"; payload: User | null} 
 | {type: "Login_Failure"}
+| {type: "Log_Out"}
 
 
 type TDispatch = Dispatch<Action>;
@@ -44,11 +44,7 @@ export const ContextProvider = ({children} : { children: React.ReactNode }) => {
     },[state.user]);
     
     return(
-        <Context.Provider value={{
-            user: state.user,
-            isFetching: state.isFetching,
-            error: state.error
-        }}>
+        <Context.Provider value={state}>
             <DispatchContext.Provider value={dispatch}>
                 {children}
             </DispatchContext.Provider>
@@ -57,12 +53,12 @@ export const ContextProvider = ({children} : { children: React.ReactNode }) => {
 }
 export function useContextState() {
     const state = useContext(Context);
-    if (!state) throw new Error('Cannot find Provider'); // 유효하지 않을땐 에러를 발생
+    if (!state) throw new Error('Cannot find Provider'); 
     return state;
 }
 
 export function useDispatch() {
     const dispatch = useContext(DispatchContext);
-    if (!dispatch) throw new Error('Cannot find Provider'); // 유효하지 않을땐 에러를 발생
+    if (!dispatch) throw new Error('Cannot find Provider');
     return dispatch;
 }

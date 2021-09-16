@@ -1,7 +1,6 @@
 import { User } from "./Context"
 
-
-export const LoginStart = (userCredentials:any) => {
+export const LoginStart = () => {
     return {
         type: "Login_Start"
     }
@@ -17,5 +16,10 @@ export const LoginSuccess = (user:User) => {
 export const LoginFailure = () => {
     return {
         type: "Login_Failure"
+    }
+}
+export const LogOut = () => {
+    return {
+        type: "Log_Out"
     }
 }
