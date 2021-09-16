@@ -14,9 +14,12 @@ import Setting from './routes/Setting';
 import Single from './routes/Single';
 import Write from './routes/Write';
 import About from './routes/About';
+import { useContextState } from './context/Context';
 
 function App() {
-  const isLoggedIn = false;
+  const state = useContextState();
+  const user = state.user;
+  
   return (
       <Router>
         <TopBar />
@@ -25,16 +28,16 @@ function App() {
             <Home />
           </Route>
           <Route path="/login" >
-            {isLoggedIn ? <Home /> : <Login />}
+            {user ? <Home /> : <Login />}
           </Route>
           <Route path="/register" >
-            {isLoggedIn ? <Home /> : <Register />}
+            {user ? <Home /> : <Register />}
           </Route>
           <Route path="/setting" >
-            {isLoggedIn ? <Setting /> : <Home />}
+            {user ? <Setting /> : <Home />}
           </Route>
           <Route path="/write" >
-            {isLoggedIn ? <Write /> : <Home />}
+            {user ? <Write /> : <Home />}
           </Route>
           <Route path="/about" >
             <About />

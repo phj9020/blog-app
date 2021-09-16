@@ -43,13 +43,13 @@ const handleLogin = async (req, res) => {
         }); 
         
         if(!user) {
-            res.status(400).json("입력하신 이메일은 없는 계정입니다.")
+            return res.status(400).json("입력하신 이메일은 없는 계정입니다.")
         }
 
         const validate = await bcrypt.compare(password, user.password);
 
         if(!validate) {
-            res.status(400).json("비밀번호가 일치하지 않습니다")
+            return res.status(400).json("비밀번호가 일치하지 않습니다")
         }
 
         const {password:hashedPassword, ...otherInfo} = user._doc;

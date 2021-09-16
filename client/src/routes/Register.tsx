@@ -73,35 +73,38 @@ const LoginButton = styled.button`
 
 
 function Register() {
-    const [username, setUsername] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [error, setError] = useState<string>("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     let history = useHistory();
     
     const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const postRegister = await axios({
-            url: "http://localhost:4000/api/auth/register",
-            method: "POST",
-            data: {
-                username,
-                email,
-                password
-            }
-        }).then(response => response)
-        .catch(error => setError(error.response.data.error))
-
-        if(postRegister?.status === 201) {
-            alert("계정을 성공적으로 생성했습니다");
-            history.push({
-                pathname: "/login",
-                state: {
+        try {
+            const postRegister = await axios({
+                url: "http://localhost:4000/api/auth/register",
+                method: "POST",
+                data: {
+                    username,
                     email,
                     password
                 }
             });
-        } 
+
+            if(postRegister?.status === 201) {
+                alert("계정을 성공적으로 생성했습니다");
+                history.push({
+                    pathname: "/login",
+                    state: {
+                        email,
+                        password
+                    }
+                });
+            } 
+        } catch (error:any) {
+            setError(error.response.data.error)
+        }
     };
 
     const handleOnChange= (event: React.ChangeEvent<HTMLInputElement>)=> {

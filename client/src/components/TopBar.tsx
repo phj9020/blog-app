@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookSquare, faTwitterSquare, faPinterestSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
 import {Link} from 'react-router-dom';
+import { useContextState } from "../context/Context";
 
 const TopBarContainer = styled.header`
     width: 100%;
@@ -80,11 +81,13 @@ const Img = styled.img`
 `
 
 const TopBar = () => {
-    const isLoggedIn = false;
+    const state = useContextState();
+    const user = state.user;
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
         event.preventDefault();
-        console.log("logout")
+        localStorage.removeItem("user");
+        window.location.reload();
     }
 
     const Nav:FunctionComponent<{value: string, path:string}> = ({value, path})=> {
@@ -114,11 +117,11 @@ const TopBar = () => {
                     <Nav value="home" path="/" />
                     <Nav value="about" path="/about" />
                     <Nav value="write" path="/write" />
-                    {isLoggedIn ? <li onClick={handleLogOut} >logout</li> : null}
+                    {user ? <li onClick={handleLogOut} >logout</li> : null}
                 </Ul>
             </Center>
             <Right>
-                {isLoggedIn ? (
+                {user ? (
                     <Link to="/setting">
                         <Img src="/img/profile.jpg" alt="profile" />
                     </Link>
