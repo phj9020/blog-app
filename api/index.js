@@ -8,6 +8,7 @@ import PostRouter from './routes/posts';
 import CategoryRouter from './routes/categories';
 import multer from 'multer';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,15 +20,16 @@ const corsOptions = {
 
 // middleware 
 app.use(express.json()); 
-app.use(express.urlencoded({ extended: true }))
-app.use(cors(corsOptions))
-
+app.use(express.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
+app.use("/images", express.static(path.join(__dirname, "/images")));
+console.log(path.join(__dirname))
 // upload image using multer 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "images")
     },filename:(req,file,cb) => {
-        cb(null, file.originalname+ '-' + Date.now() + ".jpeg")
+        cb(null, req.body.name)
     }
 });
 

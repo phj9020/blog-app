@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Ipost } from '../type';
 import { Link } from 'react-router-dom';
+import { useContextState } from '../context/Context';
 
 
 const SinglePostContainer = styled.main`
@@ -98,6 +99,7 @@ const SinglePostDescription = styled.p`
     font-size:18px;
     line-height:1.5;
     color: #666;
+    white-space:pre-wrap;
 
     ::first-letter {
         margin-left: 20px;
@@ -107,14 +109,16 @@ const SinglePostDescription = styled.p`
 `
 
 function SinglePost() {
+    const PF = "http://localhost:4000/images/";
     const [singlePost, setSinglePost] = useState<Ipost>();
     const location = useLocation();
     const {pathname} = location;
+    const state = useContextState();
 
     useEffect(() => {
         const getSinglePost = async()=> {
             const res = await axios.get(`http://localhost:4000/api${pathname}`);
-            setSinglePost(res.data)
+            setSinglePost(res.data);
         }
         getSinglePost();
     },[pathname]);
@@ -123,15 +127,17 @@ function SinglePost() {
     return (
         <SinglePostContainer>
             <SinglePostWrapper>
-                {singlePost?.photo && (
-                    <SinglePostImg src={singlePost?.photo} alt="poster" />
-                )}
+                {singlePost?.photo ? 
+                    <SinglePostImg src={PF + singlePost?.photo} alt="poster" /> : <SinglePostImg src="/img/base.jpg" alt="default" />
+                }
                 <SinglePostTitle>
                     {singlePost?.title}
-                    <SinglePostEdit>
-                        <FontAwesomeIcon className="singlePostIcon" icon={faEdit}/>
-                        <FontAwesomeIcon className="singlePostIcon" icon={faTrashAlt}/>
-                    </SinglePostEdit>
+                    {singlePost?.username === state?.user?.username && 
+                        <SinglePostEdit>
+                            <FontAwesomeIcon className="singlePostIcon" icon={faEdit}/>
+                            <FontAwesomeIcon className="singlePostIcon" icon={faTrashAlt}/>
+                        </SinglePostEdit>
+                    }
                 </SinglePostTitle>
                 <SinglePostInfo>
                     <div className="singlePostProfile">
@@ -143,7 +149,7 @@ function SinglePost() {
                         {singlePost?.categories.map((category,index) => <span key={index}>{category}</span>)}
                     </PostCategories>
                 </SinglePostInfo>
-                <SinglePostDescription>
+                <SinglePostDescription> 
                     {singlePost?.description}
                 </SinglePostDescription>
             </SinglePostWrapper>

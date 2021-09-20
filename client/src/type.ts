@@ -19,3 +19,14 @@ export interface IRegisterStateType {
     email: string,
     password: string,
 }
+
+export interface newPost {
+    owner: {
+        _id: string,
+    },
+    categories: Array<string>
+    username: string,
+    title: string,
+    description: string,
+    photo?: string
+}
