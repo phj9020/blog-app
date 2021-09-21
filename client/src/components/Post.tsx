@@ -58,7 +58,7 @@ const PostParagraph = styled.p`
     margin: 20px 0px 30px 0px;
     line-height:24px;
     font-family: 'Noto Sans KR', sans-serif;
-    text-align: justify;
+    text-align: center;
     color: #444;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Ipost } from '../type';
@@ -67,6 +67,7 @@ const SinglePostInfo = styled.div`
 `
 const ProfileImg = styled.img`
     width: 30px;
+    height: 30px;
     object-fit: cover;
     border-radius: 50%;
     margin-right: 10px;
@@ -111,9 +112,31 @@ const SinglePostDescription = styled.p`
 function SinglePost() {
     const PF = "http://localhost:4000/images/";
     const [singlePost, setSinglePost] = useState<Ipost>();
-    const location = useLocation();
+    let location = useLocation();
+    let history = useHistory();
     const {pathname} = location;
     const state = useContextState();
+    
+    const handleDeletePost = async(e: React.MouseEvent<SVGSVGElement>)=>{
+        e.preventDefault();
+        const config  = {
+            data: {
+                id: state?.user?._id
+            }
+        };
+
+        try{
+            const res = await axios.delete(`http://localhost:4000/api${pathname}`, config)
+            console.log(res)
+            if(res.status === 200) {
+                alert(res.data);
+                history.push("/");
+            }
+        } catch(err : any){
+            console.log(err)
+        }
+        
+    }
 
     useEffect(() => {
         const getSinglePost = async()=> {
@@ -134,14 +157,14 @@ function SinglePost() {
                     {singlePost?.title}
                     {singlePost?.username === state?.user?.username && 
                         <SinglePostEdit>
-                            <FontAwesomeIcon className="singlePostIcon" icon={faEdit}/>
-                            <FontAwesomeIcon className="singlePostIcon" icon={faTrashAlt}/>
+                            <FontAwesomeIcon className="singlePostIcon" icon={faEdit} />
+                            <FontAwesomeIcon className="singlePostIcon" icon={faTrashAlt} onClick={handleDeletePost}/>
                         </SinglePostEdit>
                     }
                 </SinglePostTitle>
                 <SinglePostInfo>
                     <div className="singlePostProfile">
-                        <ProfileImg src="/img/profile.jpg" alt="profile" />
+                        <ProfileImg src={singlePost?.owner?.profilePic !== "" ? singlePost?.owner?.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" } alt="profile" />
                         <SinglePostAuthor><Link to={`/?user=${singlePost?.username}`}>{singlePost?.username}</Link></SinglePostAuthor>
                         <SinglePostDate>{singlePost?.createdAt.substring(0,10)}</SinglePostDate>
                     </div>

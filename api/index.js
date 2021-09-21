@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use("/images", express.static(path.join(__dirname, "/images")));
-console.log(path.join(__dirname))
+
 // upload image using multer 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

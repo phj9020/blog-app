@@ -129,7 +129,6 @@ function Write() {
 
         try {
             const res = await axios.post("http://localhost:4000/api/post/createPost", newPost);
-            console.log(res)
             history.push("/post/" + res.data._id);
         } catch (error:any) {
             console.log(error);
@@ -137,11 +136,9 @@ function Write() {
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        console.log(e.target)
         if(e.target.id === "title") {
             setTitle(e.target.value)
         } else if(e.target.id === "category") {
-            console.log(e.target.value)
             const categories = e.target.value.split(",");
             setCategory(categories);
         } else {

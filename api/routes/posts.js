@@ -33,8 +33,8 @@ const handleGetAllPosts = async (req, res) => {
 const handleGetSinglePost = async (req, res) => {
     const {id} = req.params;
     try{
-        const post = await postModule.findById(id);
-        res.status(200).json(post)
+        const post = await postModule.findById(id).populate("owner");
+        res.status(201).json(post)
     } catch (err) {
         res.status(500).json(err)
     }
@@ -83,7 +83,7 @@ const handleUpdatePost = async(req, res) => {
 const handleDeletePost = async(req, res) => {
     const {id: postId} = req.params;
     const {id: userId}= req.body;
-
+    
     try {
         const post = await postModule.findById(postId);
         const user = await userModule.findById(userId);

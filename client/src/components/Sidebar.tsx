@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 const SidebarContainer = styled.aside`
+    min-width:223px;
     flex: 3;
     margin: 20px;
     padding-bottom: 30px;
