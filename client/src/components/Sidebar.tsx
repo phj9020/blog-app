@@ -96,7 +96,11 @@ function Sidebar() {
             setCategories(res.data)
         };
         getCategories();
-    },[])
+    },[]);
+
+    useEffect(() => {
+        return () => setCategories([]); //  solve memory leak problem with cleanup function 
+    }, []);
 
 
     return (

@@ -60,7 +60,6 @@ const WriteForm = styled.form`
         resize: none;
         font-size: 20px !important;
         min-height: 50vh;
-
         border: 1px solid gray;
     }
 
