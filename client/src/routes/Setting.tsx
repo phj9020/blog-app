@@ -3,7 +3,10 @@ import Sidebar from '../components/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import { sharedButton } from '../sharedStyle';
-import { useContextState } from '../context/Context';
+import { useContextState, useDispatch } from '../context/Context';
+import { useEffect, useState } from 'react';
+import { IupdateUser } from '../type';
+import axios from 'axios';
 
 const SettingContainer = styled.div`
     display: flex;
@@ -92,30 +95,111 @@ const SettingSubmit = styled.button`
 function Setting() {
     const state = useContextState();
     const user = state.user;
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [file, setFile] = useState<File | null>(null);
+    const dispatch = useDispatch();
+    const PF = "http://localhost:4000/images/";
+    
+    const handleSettingSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const updateUser : IupdateUser  = {
+            userId: user?._id,
+            username,
+            email,
+            password
+        };
+    
+        if(file) {
+            const data =  new FormData();
+            const filename : string = Date.now() + "-" + file.name;
+            data.append("name", filename);
+            data.append("file", file);
+            updateUser.profilePic = filename;
+            
+            // post upload photo api
+            try {
+                const res = await axios.post("http://localhost:4000/api/upload", data);
+                console.log(res)
+            } catch (error:any) {   
+                console.log(error);
+            }
+        };
+
+        try {
+            const res = await axios.put(`http://localhost:4000/api/users/${user?._id}`, updateUser);
+            dispatch({type:"Update_User", payload: res.data})
+            if(res.status === 200) {
+                alert("프로필 정보가 성공적으로 업데이트 되었습니다.")
+            }
+        } catch (error:any) {
+            alert(error.response.data.message)
+        }
+    };
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.type === "text") {
+            setUsername(e.target.value);
+        } else if(e.target.type === "email") {
+            setEmail(e.target.value);
+        } else if(e.target.type === "password") {
+            setPassword(e.target.value);
+        }
+        
+    }
+
+    const handleDeleteAccount = async(e: React.MouseEvent<HTMLSpanElement>) => {
+        e.preventDefault();
+        const config  = {
+            data: {
+                userId: state?.user?._id
+            }
+        };
+        try {
+            const res = await axios.delete(`http://localhost:4000/api/users/${user?._id}`, config);
+            alert(res.data.message);
+            dispatch({type:"Log_Out"});
+        } catch (error: any) {
+            alert(error.response.data.message)
+        }
+    }
+
+    useEffect(()=> {
+        setUsername(user?.username);
+        setEmail(user?.email);
+    },[user])
     
     return (
         <SettingContainer>
             <SettingWrapper>
                 <SettingTitle>
                     <span className="setting_UpdateTitle">계정 업데이트</span>
-                    <span className="setting_DeleteTitle">계정 삭제</span>
+                    <span className="setting_DeleteTitle" onClick={handleDeleteAccount}>계정 삭제</span>
                 </SettingTitle>
-                <SettingForm>
+                <SettingForm onSubmit={handleSettingSubmit}>
                     <label>Profile Picture</label>
                     <div className="setting_ProfilePic">
-                        <img src={user.profilePic ? user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profilepic" />
+                        {file ?
+                            <img src={URL.createObjectURL(file)} alt="uploadedProfile" /> :
+                            <img src={user.profilePic ? PF + user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profilepic" />
+                        }
                         <label htmlFor="profileUpload" title="프로필 이미지 업로드">
                             <FontAwesomeIcon className="setting_ProfileIcon" icon={faUserCircle} />
                         </label>
-                        <input type="file" id="profileUpload" style={{display: "none"}}/>
+                        <input type="file" id="profileUpload" style={{display: "none"}} onChange={(e)=> {
+                            if(!e.target.files) return;
+                            setFile(e.target.files[0]);
+                        }}  />
                     </div>
                     <label>Username</label>
-                    <input type="text" placeholder="수정할 유저이름을 입력하세요" autoComplete="off"/>
+                    <input type="text" placeholder="수정할 유저이름을 입력하세요" autoComplete="off" required={true} value={username} onChange={handleChange}/>
                     <label>Email</label>
-                    <input type="email" placeholder="수정할 이메일을 입력하세요" autoComplete="off"/>
+                    <input type="email" placeholder="수정할 이메일을 입력하세요" autoComplete="off" required={true} value={email} onChange={handleChange} />
                     <label>Password</label>
-                    <input type="password" placeholder="수정할 비밀번호를 입력하세요" autoComplete="off"/>
-                    <SettingSubmit>저장하기</SettingSubmit>
+                    <input type="password" placeholder="수정할 비밀번호를 입력하세요" autoComplete="off" required={true} value={password} onChange={handleChange} />
+                    <SettingSubmit type="submit">저장하기</SettingSubmit>
                 </SettingForm>
             </SettingWrapper>
             <Sidebar />

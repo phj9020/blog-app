@@ -29,12 +29,13 @@ export type Action = {type: "Login_Start"}
 | {type: "Login_Success"; payload: User | null} 
 | {type: "Login_Failure"}
 | {type: "Log_Out"}
+| {type: "Update_User"; payload: User | null}
 
 
 type TDispatch = Dispatch<Action>;
 
-export const Context = React.createContext(INITIAL_STATE);
-export const DispatchContext = React.createContext<TDispatch | null>(null);
+const Context = React.createContext(INITIAL_STATE);
+const DispatchContext = React.createContext<TDispatch | null>(null);
 
 export const ContextProvider = ({children} : { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);

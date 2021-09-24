@@ -80,25 +80,25 @@ const Img = styled.img`
     object-fit: cover;
     border-radius: 50%;
 `
+const Nav:FunctionComponent<{value: string, path:string}> = ({value, path})=> {
+    return (
+        <li>
+            <Link to={path}>
+                {value}
+            </Link>
+        </li>
+    )
+};
 
 const TopBar = () => {
     const state = useContextState();
     const dispatch = useDispatch();
     const user = state.user;
+    const PF = "http://localhost:4000/images/"
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
         event.preventDefault();
         dispatch({type:"Log_Out"})
-    };
-
-    const Nav:FunctionComponent<{value: string, path:string}> = ({value, path})=> {
-        return (
-            <li>
-                <Link to={path}>
-                    {value}
-                </Link>
-            </li>
-        )
     };
 
     return (
@@ -124,7 +124,7 @@ const TopBar = () => {
             <Right>
                 {user ? (
                     <Link to="/setting">
-                        <Img src={user.profilePic ? user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profile" />
+                        <Img src={user.profilePic ? PF + user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profile" />
                     </Link>
                 ) : (
                     <Ul>

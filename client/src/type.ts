@@ -38,3 +38,12 @@ export interface newPost {
     description: string,
     photo?: string
 }
+
+export interface IupdateUser {
+    userId: string,
+    username: string,
+    email: string,
+    password: string,
+    photo?:string,
+    profilePic?:string,
+}

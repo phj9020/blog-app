@@ -156,7 +156,7 @@ function SinglePost() {
     let history = useHistory();
     const {pathname} = location;
     const state = useContextState();
-
+    
     // updateMode 
     const handleUpdateMode = (e: React.MouseEvent<SVGSVGElement>) => {
         e.preventDefault();
@@ -241,7 +241,7 @@ function SinglePost() {
                         }
                         <SinglePostInfo>
                             <div className="singlePostProfile">
-                                <ProfileImg src={singlePost?.owner?.profilePic !== "" ? singlePost?.owner?.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" } alt="profile" />
+                                <ProfileImg src={singlePost?.owner?.profilePic !== "" ? PF + singlePost?.owner?.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" } alt="profile" />
                                 <SinglePostAuthor><Link to={`/?user=${singlePost?.username}`}>{singlePost?.username}</Link></SinglePostAuthor>
                                 <SinglePostDate>{singlePost?.createdAt.substring(0,10)}</SinglePostDate>
                             </div>

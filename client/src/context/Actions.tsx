@@ -23,3 +23,10 @@ export const LogOut = () => {
         type: "Log_Out"
     }
 }
+
+export const UpdateUser = (user:User) => {
+    return {
+        type: "Update_User",
+        payload: user
+    }
+}

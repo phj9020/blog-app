@@ -28,7 +28,7 @@ function Home() {
         fetchPosts();
     },[search]);
 
-   
+
 
     return (
         <>

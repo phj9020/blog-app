@@ -113,7 +113,7 @@ function Write() {
         // if file exist make formData and add name, file put it in newPost object
         if(file) {
             const data =  new FormData();
-            const filename : string = Date.now() + file.name;
+            const filename : string = Date.now() + "-" + file.name;
             data.append("name", filename);
             data.append("file", file);
             newPost.photo = filename;
@@ -152,7 +152,7 @@ function Write() {
                     <img src={URL.createObjectURL(file)} alt="uploadedImage" />
                 }
             </div>
-            <WriteForm onSubmit={handleWriteSubmit}>
+            <WriteForm onSubmit={handleWriteSubmit} >
                 <div className="writeFormGroup">
                     <label htmlFor="fileInput" title="Post Cover Image">
                         <FontAwesomeIcon className="fileupload" icon={faPlus} />
