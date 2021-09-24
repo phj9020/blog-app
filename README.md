@@ -1,15 +1,13 @@
-# my-blogg-app
+# my-blog-app
 
 ## client
-build app with React.js, typescript, Context API
-
-* * *
+build app with React.js, typescript, Context API, styled-components
 
 ## backend
 create api with node.js, express.js, mongoDB
 
 
-### APIS
+### APIs
 
 + Auth
   + Register : post "/api/auth/register"
