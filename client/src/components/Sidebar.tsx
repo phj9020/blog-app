@@ -13,7 +13,7 @@ const SidebarContainer = styled.aside`
     margin: 20px;
     padding-bottom: 30px;
     background-color: #fdfdfd;
-    max-height: 673px;
+    min-height: 673px;
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
@@ -66,6 +66,31 @@ const SidebarItem = styled.div`
             }
         }
     }
+
+    form {
+        width: 80%;
+        padding: 5px 0px;
+        text-align: center;
+        input {
+            width: 100px;
+            border:none;
+            padding: 5px;
+            :focus {
+                outline:none;
+            }
+        }
+        button {
+            cursor: pointer;
+            border:none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            color: white;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin-left: 5px;
+            background-color: #009ad2;
+        }
+    }
 `
 const Img = styled.img`
     width: 80%;
@@ -88,7 +113,20 @@ const IconContainer = styled.div`
 `
 
 function Sidebar() {
+    const [addCategory, setAddCategory] = useState("");
     const [categories, setCategories] = useState<Icategory[]>([]);
+
+    const handleAddCategory = async(e: React.FormEvent<HTMLFormElement>)=> {
+        e.preventDefault();
+        try {
+            const res = await axios.post("http://localhost:4000/api/categories", {addCategory});
+            if(res.status === 200) {
+                setAddCategory("");
+            }
+        } catch (error){
+            console.log(error);
+        }
+    }
 
     useEffect(()=> {
         const getCategories = async ()=> {
@@ -96,7 +134,7 @@ function Sidebar() {
             setCategories(res.data)
         };
         getCategories();
-    },[]);
+    },[addCategory]);
 
     useEffect(() => {
         return () => setCategories([]); //  solve memory leak problem with cleanup function 
@@ -121,6 +159,10 @@ function Sidebar() {
                         </li>    
                     )}
                 </ul>
+                <form onSubmit={handleAddCategory}>
+                    <input type="text" placeholder="카테고리 이름" required={true} value={addCategory} onChange={(e)=> setAddCategory(e.target.value) } />
+                    <button type="submit">추가</button>
+                </form>
             </SidebarItem>
             <SidebarItem>
                 <span className="sidebar_title">Follow me</span>

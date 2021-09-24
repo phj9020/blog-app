@@ -119,8 +119,7 @@ function Write() {
             newPost.photo = filename;
             // post upload photo api
             try {
-                const res = await axios.post("http://localhost:4000/api/upload", data);
-                console.log(res)
+                await axios.post("http://localhost:4000/api/upload", data);
             } catch (error:any) {   
                 console.log(error);
             }

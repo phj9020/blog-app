@@ -30,12 +30,23 @@ const Reducer = (state:State, action:Action) : State => {
                 isFetching: false,
                 error: false,
             }
-        case "Update_User": 
+        case "Update_User_Start" :
+            return {
+                ...state,
+                isFetching: true,
+            }
+        case "Update_User_Success": 
             return {
                 ...state,
                 user:action.payload,
                 isFetching: false,
                 error: false,
+            }
+        case "Update_User_Failure":
+            return {
+                user: state.user,
+                isFetching: false,
+                error: true,
             }
         default :
             return state;

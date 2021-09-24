@@ -24,9 +24,20 @@ export const LogOut = () => {
     }
 }
 
-export const UpdateUser = (user:User) => {
+export const UpdateUserStart = () => {
     return {
-        type: "Update_User",
+        type: "Update_User_Start",
+    }
+}
+export const UpdateUserSuccess = (user:User) => {
+    return {
+        type: "Update_User_Success",
         payload: user
+    }
+}
+
+export const UpdateUserFailure = () => {
+    return {
+        type: "Update_User_Failure",
     }
 }

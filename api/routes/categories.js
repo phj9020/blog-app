@@ -4,7 +4,10 @@ import categoryModule from '../models/Category';
 const CategoryRouter = express.Router();
 
 const handlePostCategory = async (req, res) => {
-    const newCategory = new categoryModule(req.body);
+    const {addCategory} = req.body;
+    const newCategory = new categoryModule({
+        name: addCategory
+    });
     try {
         const saveCategory = await newCategory.save();
         res.status(200).json(saveCategory);

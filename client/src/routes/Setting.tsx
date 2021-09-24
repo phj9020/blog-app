@@ -104,7 +104,7 @@ function Setting() {
     
     const handleSettingSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        dispatch({type: "Update_User_Start"});
         const updateUser : IupdateUser  = {
             userId: user?._id,
             username,
@@ -121,8 +121,8 @@ function Setting() {
             
             // post upload photo api
             try {
-                const res = await axios.post("http://localhost:4000/api/upload", data);
-                console.log(res)
+                await axios.post("http://localhost:4000/api/upload", data);
+                
             } catch (error:any) {   
                 console.log(error);
             }
@@ -130,12 +130,14 @@ function Setting() {
 
         try {
             const res = await axios.put(`http://localhost:4000/api/users/${user?._id}`, updateUser);
-            dispatch({type:"Update_User", payload: res.data})
             if(res.status === 200) {
-                alert("프로필 정보가 성공적으로 업데이트 되었습니다.")
-            }
+                dispatch({type:"Update_User_Success", payload: res.data})
+                alert("프로필 정보가 성공적으로 업데이트 되었습니다. 다시 로그인해 주세요.")
+                dispatch({type:"Log_Out"});
+            };
         } catch (error:any) {
-            alert(error.response.data.message)
+            dispatch({type:"Update_User_Failure"});
+            alert(error.response.data);
         }
     };
     

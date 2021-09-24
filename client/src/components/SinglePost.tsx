@@ -185,6 +185,12 @@ function SinglePost() {
     // DeletePost
     const handleDeletePost = async(e: React.MouseEvent<SVGSVGElement>)=>{
         e.preventDefault();
+        const ask = window.confirm("정말 포스트를 삭제하시겠습니까?");
+        
+        if(ask === false) {
+            return;
+        };
+        
         const config  = {
             data: {
                 id: state?.user?._id

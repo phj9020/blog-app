@@ -29,7 +29,9 @@ export type Action = {type: "Login_Start"}
 | {type: "Login_Success"; payload: User | null} 
 | {type: "Login_Failure"}
 | {type: "Log_Out"}
-| {type: "Update_User"; payload: User | null}
+| {type: "Update_User_Start"}
+| {type: "Update_User_Success"; payload: User | null}
+| {type: "Update_User_Failure"}
 
 
 type TDispatch = Dispatch<Action>;
