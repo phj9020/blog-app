@@ -124,7 +124,7 @@ function Write() {
         };
         // if file exist make formData and add name, file put it in newPost object
         if(file) {
-            let globaldata : iaws;
+            // let globaldata : iaws;
             let newFileName = "test";
             const config : iconfig = {
                 bucketName: "hjp-blog-app/images",
