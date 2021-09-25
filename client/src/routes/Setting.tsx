@@ -161,7 +161,7 @@ function Setting() {
             }
         };
         try {
-            const res = await axios.delete(`http://localhost:4000/api/users/${user?._id}`, config);
+            const res = await axios.delete(`https://hj-blog-app.herokuapp.com/api/users/${user?._id}`, config);
             alert(res.data.message);
             dispatch({type:"Log_Out"});
         } catch (error: any) {
@@ -181,7 +181,7 @@ function Setting() {
                     <span className="setting_UpdateTitle">계정 업데이트</span>
                     <span className="setting_DeleteTitle" onClick={handleDeleteAccount}>계정 삭제</span>
                 </SettingTitle>
-                <SettingForm onSubmit={handleSettingSubmit}>
+                <SettingForm onSubmit={handleSettingSubmit} encType="multipart/form-data">
                     <label>Profile Picture</label>
                     <div className="setting_ProfilePic">
                         {file ?
@@ -194,7 +194,7 @@ function Setting() {
                         <input type="file" id="profileUpload" style={{display: "none"}} onChange={(e)=> {
                             if(!e.target.files) return;
                             setFile(e.target.files[0]);
-                        }}  />
+                        }} accept="image/*" />
                     </div>
                     <label>Username</label>
                     <input type="text" placeholder="수정할 유저이름을 입력하세요" autoComplete="off" required={true} value={username} onChange={handleChange}/>

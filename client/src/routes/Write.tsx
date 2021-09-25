@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useContextState } from '../context/Context';
 import { newPost } from '../type';
 import { useHistory } from 'react-router';
+import S3 from 'react-aws-s3-typescript';
 
 const WriteContainer = styled.div`
     padding-top: 50px;
@@ -87,7 +88,18 @@ const SubmitBtn = styled.button`
         background-color: #97BC62FF;
     }
 `
+interface iconfig {
+    bucketName: string,
+    accessKeyId: string,
+    secretAccessKey: string,
+    region: string
+};
 
+interface iaws {
+    bucket: string,
+    key: string,
+    location: string,
+}
 
 function Write() {
     const [title, setTitle] = useState("");
@@ -112,17 +124,34 @@ function Write() {
         };
         // if file exist make formData and add name, file put it in newPost object
         if(file) {
-            const data =  new FormData();
-            const filename : string = Date.now() + "-" + file.name;
-            data.append("name", filename);
-            data.append("file", file);
-            newPost.photo = filename;
+            let globaldata : iaws;
+            let newFileName = "test";
+            const config : iconfig = {
+                bucketName: "hjp-blog-app/images",
+                accessKeyId: "AKIATRSVE2PXTLRXQHGM",
+                secretAccessKey: "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",
+                region: "ap-northeast-2"
+            };
+            const ReactS3Client = new S3(config); 
+
+            ReactS3Client.uploadFile(file, newFileName).then(data => {
+                console.log(data);
+                globaldata = data;
+                newPost.photo = globaldata?.key;
+                axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
+            });
+            
+            // const data =  new FormData();
+            // const filename : string = Date.now() + "-" + file.name;
+            // data.append("name", filename);
+            // data.append("file", file);
+            // newPost.photo = filename;
             // post upload photo api
-            try {
-                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
-            } catch (error:any) {   
-                console.log(error);
-            }
+            // try {
+            //     await axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
+            // } catch (error:any) {   
+            //     console.log(error);
+            // }
         };
 
         try {
@@ -151,7 +180,7 @@ function Write() {
                     <img src={URL.createObjectURL(file)} alt="uploadedImage" />
                 }
             </div>
-            <WriteForm onSubmit={handleWriteSubmit} >
+            <WriteForm onSubmit={handleWriteSubmit} encType="multipart/form-data" >
                 <div className="writeFormGroup">
                     <label htmlFor="fileInput" title="Post Cover Image">
                         <FontAwesomeIcon className="fileupload" icon={faPlus} />
@@ -159,7 +188,7 @@ function Write() {
                     <input type="file" id="fileInput" style={{display:"none"}} onChange={(e)=> {
                         if(!e.target.files) return;
                         setFile(e.target.files[0]);
-                    }} />
+                    }} accept="image/*" />
                     <input type="text" id="title" className="text_input" placeholder="타이틀" autoFocus={true} required={true} value={title} onChange={handleOnChange}/>
                 </div>
                 <div className="writeFormGroup">
