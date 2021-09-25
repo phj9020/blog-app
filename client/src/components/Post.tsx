@@ -70,13 +70,13 @@ const PostParagraph = styled.p`
 
 const Post:FunctionComponent<{post:Ipost}> = ({post}) => {
     // const PF = "http://localhost:4000/images/";
-    const PF = "https://hj-blog-app.herokuapp.com/images/";
+
     const {_id, title, description,createdAt, categories, photo} = post;
 
     return (
         <SinglePostContainer>
             {photo ? 
-                <PostImg src={PF + photo} alt={title} /> : <PostImg src="/img/base.jpg" alt="default" />
+                <PostImg src={photo} alt={title} /> : <PostImg src="/img/base.jpg" alt="default" />
             }
             <Link to={`/post/${_id}`}>
                 <PostInfo>

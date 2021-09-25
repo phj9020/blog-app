@@ -101,7 +101,6 @@ function Setting() {
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
     // const PF = "http://localhost:4000/images/";
-    const PF = "https://hj-blog-app.herokuapp.com/images/";
     
     const handleSettingSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -118,11 +117,14 @@ function Setting() {
             const filename : string = Date.now() + "-" + file.name;
             data.append("name", filename);
             data.append("file", file);
-            updateUser.profilePic = filename;
+            // updateUser.profilePic = filename;
             
             // post upload photo api
             try {
-                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
+                const res = await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
+                if(res.status === 200) {
+                    updateUser.profilePic = res.data;
+                }
                 
             } catch (error:any) {   
                 console.log(error);
@@ -186,7 +188,7 @@ function Setting() {
                     <div className="setting_ProfilePic">
                         {file ?
                             <img src={URL.createObjectURL(file)} alt="uploadedProfile" /> :
-                            <img src={user.profilePic ? PF + user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profilepic" />
+                            <img src={user.profilePic ? user.profilePic : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="profilepic" />
                         }
                         <label htmlFor="profileUpload" title="프로필 이미지 업로드">
                             <FontAwesomeIcon className="setting_ProfileIcon" icon={faUserCircle} />

@@ -60,8 +60,8 @@ const upload = multer({
 
 // route
 app.post("/api/upload", upload.single("file"), (req, res) => {
-    console.log(req.file)
-    res.status(200).json("파일이 성공적으로 업로드 되었습니다.")
+    const {location} = req.file;
+    res.status(200).json(location)
 })
 
 app.get("/", (req, res) => {

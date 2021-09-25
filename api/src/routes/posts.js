@@ -42,18 +42,7 @@ const handleGetSinglePost = async (req, res) => {
 
 // Create Post
 const handleCreatePost = async (req, res) => {
-    const {owner, categories, username, title, description} =req.body;
-    console.log(req.file)
-    const newPost = new postModule({
-        owner: {
-            _id: owner._id,
-        },
-        categories: [...categories],
-        username: username,
-        title: title,
-        description: description,
-        photo: req.file.location,
-    });
+    const newPost = new postModule(req.body);
     try {
         const savedPost = await newPost.save();
         
