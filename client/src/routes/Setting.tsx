@@ -159,6 +159,12 @@ function Setting() {
 
     const handleDeleteAccount = async(e: React.MouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
+        const ask = window.confirm("정말 계정을 삭제하시겠습니까?");
+        
+        if(ask === false) {
+            return;
+        };
+
         const config  = {
             data: {
                 userId: state?.user?._id
