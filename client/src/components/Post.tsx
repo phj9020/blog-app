@@ -69,7 +69,8 @@ const PostParagraph = styled.p`
 
 
 const Post:FunctionComponent<{post:Ipost}> = ({post}) => {
-    const PF = "http://localhost:4000/images/";
+    // const PF = "http://localhost:4000/images/";
+    const PF = "https://hj-blog-app.herokuapp.com/images/";
     const {_id, title, description,createdAt, categories, photo} = post;
 
     return (

@@ -83,7 +83,7 @@ function Register() {
         event.preventDefault();
         try {
             const postRegister = await axios({
-                url: "http://localhost:4000/api/auth/register",
+                url: "https://hj-blog-app.herokuapp.com/api/auth/register",
                 method: "POST",
                 data: {
                     username,

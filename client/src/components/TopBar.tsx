@@ -94,7 +94,8 @@ const TopBar = () => {
     const state = useContextState();
     const dispatch = useDispatch();
     const user = state.user;
-    const PF = "http://localhost:4000/images/"
+    // const PF = "http://localhost:4000/images/"
+    const PF = "https://hj-blog-app.herokuapp.com/images/";
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{
         event.preventDefault();

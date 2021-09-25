@@ -146,7 +146,8 @@ const UpdateButton = styled.button`
 `
 
 function SinglePost() {
-    const PF = "http://localhost:4000/images/";
+    // const PF = "http://localhost:4000/images/";
+    const PF = "https://hj-blog-app.herokuapp.com/images/";
     const [singlePost, setSinglePost] = useState<Ipost>();
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
@@ -167,7 +168,7 @@ function SinglePost() {
     const handleUpdatePost = async(e: React.MouseEvent<HTMLButtonElement>)=> {
         e.preventDefault();
         try{
-            const res = await axios.put(`http://localhost:4000/api/post/${singlePost?._id}`, {
+            const res = await axios.put(`https://hj-blog-app.herokuapp.com/api/post/${singlePost?._id}`, {
                     username: state.user.username,
                     title,
                     description
@@ -198,7 +199,7 @@ function SinglePost() {
         };
 
         try{
-            const res = await axios.delete(`http://localhost:4000/api/post/${singlePost?._id}`, config);
+            const res = await axios.delete(`https://hj-blog-app.herokuapp.com/api/post/${singlePost?._id}`, config);
             if(res.status === 200) {
                 alert(res.data);
                 history.push("/");
@@ -212,7 +213,7 @@ function SinglePost() {
     useEffect(() => {
         setLoading(true);
         const getSinglePost = async()=> {
-            const res = await axios.get(`http://localhost:4000/api${pathname}`);
+            const res = await axios.get(`https://hj-blog-app.herokuapp.com/api${pathname}`);
             setSinglePost(res.data);
             setTitle(res.data.title);
             setDescription(res.data.description);

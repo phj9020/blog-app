@@ -119,14 +119,14 @@ function Write() {
             newPost.photo = filename;
             // post upload photo api
             try {
-                await axios.post("http://localhost:4000/api/upload", data);
+                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
             } catch (error:any) {   
                 console.log(error);
             }
         };
 
         try {
-            const res = await axios.post("http://localhost:4000/api/post/createPost", newPost);
+            const res = await axios.post("https://hj-blog-app.herokuapp.com/api/post/createPost", newPost);
             history.push("/post/" + res.data._id);
         } catch (error:any) {
             console.log(error);

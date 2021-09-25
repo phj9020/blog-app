@@ -119,7 +119,7 @@ function Sidebar() {
     const handleAddCategory = async(e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/api/categories", {addCategory});
+            const res = await axios.post("https://hj-blog-app.herokuapp.com/api/categories", {addCategory});
             if(res.status === 200) {
                 setAddCategory("");
             }
@@ -130,7 +130,7 @@ function Sidebar() {
 
     useEffect(()=> {
         const getCategories = async ()=> {
-            const res = await axios.get("http://localhost:4000/api/categories");
+            const res = await axios.get("https://hj-blog-app.herokuapp.com/api/categories");
             setCategories(res.data)
         };
         getCategories();

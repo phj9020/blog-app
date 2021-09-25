@@ -97,7 +97,7 @@ function Login() {
         event.preventDefault();
         dispatch({type:"Login_Start"});
         try {
-            const res = await axios.post("http://localhost:4000/api/auth/login", {email, password});
+            const res = await axios.post("https://hj-blog-app.herokuapp.com/api/auth/login", {email, password});
             dispatch({type:"Login_Success", payload: res.data});
             history.push("/");
         } catch (error: any) {

@@ -100,7 +100,8 @@ function Setting() {
     const [password, setPassword] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
-    const PF = "http://localhost:4000/images/";
+    // const PF = "http://localhost:4000/images/";
+    const PF = "https://hj-blog-app.herokuapp.com/images/";
     
     const handleSettingSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -121,7 +122,7 @@ function Setting() {
             
             // post upload photo api
             try {
-                await axios.post("http://localhost:4000/api/upload", data);
+                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
                 
             } catch (error:any) {   
                 console.log(error);
@@ -129,7 +130,7 @@ function Setting() {
         };
 
         try {
-            const res = await axios.put(`http://localhost:4000/api/users/${user?._id}`, updateUser);
+            const res = await axios.put(`https://hj-blog-app.herokuapp.com/api/users/${user?._id}`, updateUser);
             if(res.status === 200) {
                 dispatch({type:"Update_User_Success", payload: res.data})
                 alert("프로필 정보가 성공적으로 업데이트 되었습니다. 다시 로그인해 주세요.")
