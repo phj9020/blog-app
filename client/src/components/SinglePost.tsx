@@ -230,7 +230,7 @@ function SinglePost() {
                 (
                     <SinglePostWrapper>
                         {singlePost?.photo ? 
-                            <SinglePostImg src={ PF + singlePost?.photo } alt={singlePost?.title} /> :
+                            <SinglePostImg src={ singlePost?.photo } alt={singlePost?.title} /> :
                             <SinglePostImg src={"/img/base.jpg"} alt="default" /> 
                         }
                         {updateMode ? <input type="text" className="singlePostTitleInput" required={true} value={title} onChange={(e)=> setTitle(e.target.value)} /> :

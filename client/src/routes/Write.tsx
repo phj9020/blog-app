@@ -116,10 +116,14 @@ function Write() {
             const filename : string = Date.now() + "-" + file.name;
             data.append("name", filename);
             data.append("file", file);
-            newPost.photo = filename;
+            // newPost.photo = filename;
+            
             // post upload photo api
             try {
-                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
+                const res = await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
+                if(res.status === 200) {
+                    newPost.photo = res.data;
+                }
             } catch (error:any) {   
                 console.log(error);
             }
