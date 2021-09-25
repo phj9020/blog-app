@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useContextState } from '../context/Context';
 import { newPost } from '../type';
 import { useHistory } from 'react-router';
-import S3 from 'react-aws-s3-typescript';
 
 const WriteContainer = styled.div`
     padding-top: 50px;
@@ -88,18 +87,7 @@ const SubmitBtn = styled.button`
         background-color: #97BC62FF;
     }
 `
-interface iconfig {
-    bucketName: string,
-    accessKeyId: string,
-    secretAccessKey: string,
-    region: string
-};
 
-interface iaws {
-    bucket: string,
-    key: string,
-    location: string,
-}
 
 function Write() {
     const [title, setTitle] = useState("");
@@ -124,40 +112,17 @@ function Write() {
         };
         // if file exist make formData and add name, file put it in newPost object
         if(file) {
-            // let globaldata : iaws;
-            let newFileName = "test";
-            const config : iconfig = {
-                bucketName: "hjp-blog-app/images",
-                accessKeyId: "AKIATRSVE2PXTLRXQHGM",
-                secretAccessKey: "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",
-                region: "ap-northeast-2"
-            };
-
-            
-            const ReactS3Client = new S3(config); 
-
-            try {
-                const res = await ReactS3Client.uploadFile(file, newFileName);
-                console.log(res);
-                // axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
-                // newPost.photo = globaldata?.key;
-            } catch(exception) {
-                console.log(exception)
-            }
-            
-
-            
-            // const data =  new FormData();
-            // const filename : string = Date.now() + "-" + file.name;
-            // data.append("name", filename);
-            // data.append("file", file);
-            // newPost.photo = filename;
+            const data =  new FormData();
+            const filename : string = Date.now() + "-" + file.name;
+            data.append("name", filename);
+            data.append("file", file);
+            newPost.photo = filename;
             // post upload photo api
-            // try {
-            //     await axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
-            // } catch (error:any) {   
-            //     console.log(error);
-            // }
+            try {
+                await axios.post("https://hj-blog-app.herokuapp.com/api/upload", data);
+            } catch (error:any) {   
+                console.log(error);
+            }
         };
 
         try {
