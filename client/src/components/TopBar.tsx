@@ -94,6 +94,7 @@ const TopBar = () => {
     const state = useContextState();
     const dispatch = useDispatch();
     const user = state.user;
+    // local environment
     // const PF = "http://localhost:4000/images/"
 
     const handleLogOut = (event: React.MouseEvent<HTMLElement>)=>{

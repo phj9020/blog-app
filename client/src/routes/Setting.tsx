@@ -100,6 +100,7 @@ function Setting() {
     const [password, setPassword] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
+    // local environment
     // const PF = "http://localhost:4000/images/";
     
     const handleSettingSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
@@ -117,6 +118,7 @@ function Setting() {
             const filename : string = Date.now() + "-" + file.name;
             data.append("name", filename);
             data.append("file", file);
+            // local environment
             // updateUser.profilePic = filename;
             
             // post upload photo api

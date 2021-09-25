@@ -116,6 +116,7 @@ function Write() {
             const filename : string = Date.now() + "-" + file.name;
             data.append("name", filename);
             data.append("file", file);
+            // local environment
             // newPost.photo = filename;
             
             // post upload photo api

@@ -146,6 +146,7 @@ const UpdateButton = styled.button`
 `
 
 function SinglePost() {
+    // local environment
     // const PF = "http://localhost:4000/images/";
     
     const [singlePost, setSinglePost] = useState<Ipost>();

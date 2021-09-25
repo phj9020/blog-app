@@ -69,6 +69,7 @@ const PostParagraph = styled.p`
 
 
 const Post:FunctionComponent<{post:Ipost}> = ({post}) => {
+    // local environment
     // const PF = "http://localhost:4000/images/";
 
     const {_id, title, description,createdAt, categories, photo} = post;
