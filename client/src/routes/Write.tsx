@@ -132,14 +132,20 @@ function Write() {
                 secretAccessKey: "RiQ253d1QRijCQKNgTfSGipiwceqW9j2kXjkBBRf",
                 region: "ap-northeast-2"
             };
+
+            
             const ReactS3Client = new S3(config); 
 
-            ReactS3Client.uploadFile(file, newFileName).then(data => {
-                console.log(data);
-                globaldata = data;
-                newPost.photo = globaldata?.key;
-                axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
-            });
+            try {
+                const res = await ReactS3Client.uploadFile(file, newFileName);
+                console.log(res);
+                // axios.post("https://hj-blog-app.herokuapp.com/api/upload", globaldata);
+                // newPost.photo = globaldata?.key;
+            } catch(exception) {
+                console.log(exception)
+            }
+            
+
             
             // const data =  new FormData();
             // const filename : string = Date.now() + "-" + file.name;
