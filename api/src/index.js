@@ -9,12 +9,31 @@ import CategoryRouter from './routes/categories';
 import multer from 'multer';
 import cors from 'cors';
 import path from 'path';
+import multerS3 from "multer-s3";
+import aws from 'aws-sdk';
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+const isHeroku = process.env.NODE_ENV === "production";
+console.log(isHeroku)
+
+const s3 = new aws.S3({ 
+    // pass aws key and secret
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_ID,
+        secretAccessKey: process.env.AWS_SECRET_KEY
+    }
+});
+
+const multerUploader = multerS3({
+    s3: s3,
+    bucket: 'hjp-blog-app/images', 
+    acl: 'public-read', 
+})
+
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV === 'production' ? "https://agitated-curie-dd026a.netlify.app" : "http://localhost:3000",
     credentials: true,
 };
 
@@ -22,22 +41,26 @@ const corsOptions = {
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
-app.use("/images", express.static(path.join(__dirname, "/images")));
+app.use("/images", express.static(path.join(__dirname, "/src/images")));
 
 // upload image using multer 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "images")
+        cb(null, "src/images")
     },filename:(req,file,cb) => {
         cb(null, req.body.name)
     }
 });
 
-const upload = multer({storage: storage});
+const upload = multer({
+    dest: 'uploads/images',
+    storage: isHeroku ? multerUploader : storage
+});
 
 
 // route
 app.post("/api/upload", upload.single("file"), (req, res) => {
+    console.log(req.file)
     res.status(200).json("파일이 성공적으로 업로드 되었습니다.")
 })
 
