@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useContextState } from '../context/Context';
 import { newPost } from '../type';
 import { useHistory } from 'react-router';
+import Loading from '../components/Loading';
 
 const WriteContainer = styled.div`
     padding-top: 50px;
@@ -94,12 +95,14 @@ function Write() {
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState<string[]>([]);
     const [file, setFile] = useState<File | null>(null);
+    const [loading, setLoading] = useState(false);
     const state = useContextState();
     const {_id, username} = state.user;
     let history = useHistory();
 
     const handleWriteSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
 
         const newPost : newPost  = {
             owner: {
@@ -133,6 +136,7 @@ function Write() {
         try {
             const res = await axios.post("https://hj-blog-app.herokuapp.com/api/post/createPost", newPost);
             history.push("/post/" + res.data._id);
+            setLoading(false);
         } catch (error:any) {
             console.log(error);
         }
@@ -156,25 +160,27 @@ function Write() {
                     <img src={URL.createObjectURL(file)} alt="uploadedImage" />
                 }
             </div>
-            <WriteForm onSubmit={handleWriteSubmit} encType="multipart/form-data" >
-                <div className="writeFormGroup">
-                    <label htmlFor="fileInput" title="Post Cover Image">
-                        <FontAwesomeIcon className="fileupload" icon={faPlus} />
-                    </label>
-                    <input type="file" id="fileInput" style={{display:"none"}} onChange={(e)=> {
-                        if(!e.target.files) return;
-                        setFile(e.target.files[0]);
-                    }} accept="image/*" />
-                    <input type="text" id="title" className="text_input" placeholder="타이틀" autoFocus={true} required={true} value={title} onChange={handleOnChange}/>
-                </div>
-                <div className="writeFormGroup">
-                    <input type="text" id="category" className="small" placeholder="카테고리(ex. 노드,리액트)"  required={true}  onChange={handleOnChange} />
-                </div>
-                <div className="writeFormGroup">
-                    <textarea className="text_input" placeholder="블로그 내용을 작성하세요.." required={true} value={description} onChange={handleOnChange}></textarea>
-                </div>
-                <SubmitBtn type="submit">완료</SubmitBtn>
-            </WriteForm>
+            {loading ? <Loading  color="#4285f5" type="spinningBubbles" /> :
+                <WriteForm onSubmit={handleWriteSubmit} encType="multipart/form-data" >
+                    <div className="writeFormGroup">
+                        <label htmlFor="fileInput" title="Post Cover Image">
+                            <FontAwesomeIcon className="fileupload" icon={faPlus} />
+                        </label>
+                        <input type="file" id="fileInput" style={{display:"none"}} onChange={(e)=> {
+                            if(!e.target.files) return;
+                            setFile(e.target.files[0]);
+                        }} accept="image/*" />
+                        <input type="text" id="title" className="text_input" placeholder="타이틀" autoFocus={true} required={true} value={title} onChange={handleOnChange}/>
+                    </div>
+                    <div className="writeFormGroup">
+                        <input type="text" id="category" className="small" placeholder="카테고리(ex. 노드,리액트)"  required={true}  onChange={handleOnChange} />
+                    </div>
+                    <div className="writeFormGroup">
+                        <textarea className="text_input" placeholder="블로그 내용을 작성하세요.." required={true} value={description} onChange={handleOnChange}></textarea>
+                    </div>
+                    <SubmitBtn type="submit">완료</SubmitBtn>
+                </WriteForm>
+            }
         </WriteContainer>
     )
 }
