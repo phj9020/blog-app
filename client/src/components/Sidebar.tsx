@@ -13,7 +13,7 @@ const SidebarContainer = styled.aside`
     margin: 20px;
     padding-bottom: 30px;
     background-color: #fdfdfd;
-    max-height: 673px;
+    max-height: 730px;
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
